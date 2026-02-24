@@ -301,8 +301,14 @@ function renderCreature(cid){
   var dh=h("div",{cls:"dh"});dh.appendChild(h("h2",{cls:"vt"},c.name));
   dh.appendChild(h("button",{cls:"ec",onclick:function(){openEditCreature(c)}},"\u7DE8\u96C6"));el.appendChild(dh);
   if(tank)el.appendChild(h("div",{cls:"gl"},"\u{1F41F} "+tank.name));
-  var meta=[];if(c.species)meta.push(c.species);if(c.count&&c.count>1)meta.push("\u00D7"+c.count);
-  if(meta.length)el.appendChild(h("div",{cls:"muted",stl:{marginBottom:"4px"}},meta.join(" \u30FB ")));
+  if(c.species)el.appendChild(h("div",{cls:"muted",stl:{marginBottom:"4px"}},c.species));
+  // 数カウンター
+  var cntRow=h("div",{stl:{display:"flex",alignItems:"center",gap:"10px",marginBottom:"8px"}});
+  cntRow.appendChild(h("span",{stl:{fontSize:"14px",fontWeight:"700",color:"#3a6e99"}},"\u500B\u4F53\u6570"));
+  cntRow.appendChild(h("button",{cls:"ob",onclick:function(){if(c.count>0){c.count=Math.max(0,(c.count||1)-1);saveState();R()}}},"\u2212"));
+  cntRow.appendChild(h("span",{stl:{fontSize:"18px",fontWeight:"800",minWidth:"32px",textAlign:"center"}},""+( c.count||1)));
+  cntRow.appendChild(h("button",{cls:"ob",onclick:function(){c.count=(c.count||1)+1;saveState();R()}},"\uFF0B"));
+  el.appendChild(cntRow);
   if(c.memo)el.appendChild(h("div",{cls:"muted",stl:{marginBottom:"8px"}},c.memo));
   el.appendChild(h("div",{cls:"muted",stl:{marginBottom:"20px"}},"\u767B\u9332\u65E5: "+fD(c.addedDate)));
   var ar=h("div",{cls:"ar"});
